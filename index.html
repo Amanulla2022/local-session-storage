@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Storage Project</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: whit;
+      }
+      body {
+        height: 100vh;
+        width: 100%;
+      }
+
+      .container {
+        margin: 0 auto;
+        padding: 1.5rem;
+        background-color: blue;
+        width: 50%;
+        margin-top: 5rem;
+      }
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid whitesmoke;
+      }
+
+      button {
+        background-color: aquamarine;
+        border: none;
+        padding: 1rem;
+        margin-left: 45%;
+        border-radius: 50%;
+      }
+      #show-text {
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Auto Save Textarea</h1>
+      <textarea rows="10" cols="50" placeholder="Type something..."></textarea>
+    </div>
+    <h1 id="show-text"></h1>
+    <button id="toggleButton" onclick="toggleBackground()">Toggle</button>
+  </body>
+  <script>
+    const textAreaElement = document.getElementsByTagName("textarea")[0];
+    const h1Element = document.getElementById("show-text");
+    const toggleButton = document.getElementById("toggleButton");
+    const storageKey = "my-text";
+    let isDarkMode = false;
+
+    const saveToStorage = () => {
+      const currentValue = textAreaElement.value;
+      sessionStorage.setItem(storageKey, currentValue);
+      localStorage.setItem(storageKey, currentValue);
+      h1Element.innerText = currentValue;
+    };
+
+    textAreaElement.value =
+      sessionStorage.getItem(storageKey) ||
+      localStorage.getItem(storageKey) ||
+      "";
+    textAreaElement.addEventListener("input", saveToStorage);
+    h1Element.innerText = textAreaElement.value;
+
+    function toggleBackground() {
+      isDarkMode = !isDarkMode;
+      document.body.style.backgroundColor = isDarkMode ? "black" : "white";
+      h1Element.style.color = isDarkMode ? "white" : "black";
+      toggleButton.style.color = isDarkMode ? "white" : "black";
+    }
+  </script>
+</html>
